@@ -41,10 +41,17 @@
                     @endif
                 </div>
                 
+                @if(session('error'))
+                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @endif
+                
                 <div class="d-grid gap-2">
-                    <button class="btn btn-primary btn-lg" {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                        <i class="bi bi-cart-plus"></i> Tambah ke Keranjang
-                    </button>
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary btn-lg w-100" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                            <i class="bi bi-cart-plus"></i> Tambah ke Keranjang
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

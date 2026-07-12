@@ -41,7 +41,11 @@
                         @if(Auth::user()->role === 'admin')
                             <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Admin Dashboard</a></li>
                         @else
-                            <li class="nav-item"><a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('cart.*') ? 'active fw-bold' : '' }}" href="{{ route('cart.index') }}">
+                                    <i class="bi bi-cart3"></i> Keranjang
+                                </a>
+                            </li>
                         @endif
                         
                         <li class="nav-item dropdown">

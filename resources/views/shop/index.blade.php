@@ -5,7 +5,7 @@
     <div class="col-md-12">
         <h2 class="mb-4">Daftar Produk</h2>
         
-        <form action="{{ url('/') }}" method="GET" class="card card-body bg-white shadow-sm mb-4">
+        <form action="{{ route('products.index') }}" method="GET" class="card card-body bg-white shadow-sm mb-4">
             <div class="row g-3 align-items-end">
                 <div class="col-md-5">
                     <label for="q" class="form-label">Cari Produk</label>
@@ -30,6 +30,12 @@
     </div>
 </div>
 
+@if(request('q'))
+    <div class="alert alert-secondary mb-4">
+        Menampilkan hasil pencarian untuk: <strong>"{{ request('q') }}"</strong>
+    </div>
+@endif
+
 <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
     @forelse($products as $product)
         <div class="col">
@@ -45,14 +51,23 @@
                     <h5 class="card-title text-truncate" title="{{ $product->name }}">{{ $product->name }}</h5>
                     <p class="card-text text-muted small mb-2">{{ $product->category->name ?? 'Tanpa Kategori' }}</p>
                     <h6 class="text-primary fw-bold mb-3">Rp {{ number_format($product->price, 0, ',', '.') }}</h6>
-                    <a href="{{ route('product.show', $product->id) }}" class="btn btn-outline-primary mt-auto">Detail Produk</a>
+                    
+                    <div class="mb-3 mt-auto">
+                        @if($product->stock > 0)
+                            <span class="badge bg-success">Stok: {{ $product->stock }}</span>
+                        @else
+                            <span class="badge bg-danger">Habis</span>
+                        @endif
+                    </div>
+
+                    <a href="{{ route('product.show', $product->id) }}" class="btn btn-outline-primary">Detail Produk</a>
                 </div>
             </div>
         </div>
     @empty
         <div class="col-12 text-center py-5">
             <h4 class="text-muted">Produk tidak ditemukan.</h4>
-            <a href="{{ url('/') }}" class="btn btn-primary mt-3">Reset Pencarian</a>
+            <a href="{{ route('products.index') }}" class="btn btn-primary mt-3">Reset Pencarian</a>
         </div>
     @endforelse
 </div>

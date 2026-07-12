@@ -34,9 +34,4 @@ class ShopController extends Controller
         return view('shop.index', compact('products', 'categories'));
     }
 
-    public function show(\App\Models\Product $product)
-    {
-        $product->load('category');
-        return view('shop.show', compact('product'));
-    }
 }
